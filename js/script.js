@@ -31,14 +31,36 @@ $.getJSON( nyturl, function( data ) {
   for(var i= 0; i< articles.length; i++)
   {
     var article =articles[i];
-   $nytElem.append('<li class="article">'+'<a href="'+ article.Web_url +'">'+article.headline.main+'</a>'+'<p>'+ article.snippet +'<p>'+'</li>');
+   $nytElem.append('<li class="article">'+'<a href="'+ article.web_url +'">'+article.headline.main+'</a>'+'<p>'+ article.snippet +'<p>'+'</li>');
   };
  
 
 }).error(function(e) {
     $nytHeaderElem.text('New York Times Article About cannot be loaded');
   });
-    
+ var wikiurl ='https://en.wikipedia.org/w/api.php?action=opensearch&search='+ cities +'&format=json&callback=wikiCallback';   
+ 
+ $.ajax(wikiurl, {
+  //url:wikiurl, 
+  dataType:"jsonp",
+  //jsonp:callback,
+
+  success: function(response){
+
+    var articleList =response[1];
+
+    for(var i=0;i<articleList.length; i++)
+    {
+      articleStr=articleList[i];
+      var url ='https://en.wikipedia.org/wiki/'+articleStr;
+      $wikiElem.append('<li><a href="'+url+'">'+ articleStr+'</a></li>');
+    };
+  }
+
+});
+
+
  return false;
 }
 $('#form-container').submit(loadData);
+
