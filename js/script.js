@@ -25,7 +25,7 @@ function loadData() {
 var nyturl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q='+ cities +'&sort=newest&api-' + 'key=af6a39a346a54184bd8ba93317663eb0&fl=headline,snippet,web_url';
 
 $.getJSON( nyturl, function( data ) {
-  $nytHeaderElem.text('New York Times Article About' + cities);
+  $nytHeaderElem.text('New York Times Article About'+' '+ cities);
 
   var articles =data.response.docs;
   for(var i= 0; i< articles.length; i++)
@@ -35,7 +35,10 @@ $.getJSON( nyturl, function( data ) {
   };
  
 
-});
+}).error(function(e) {
+    $nytHeaderElem.text('New York Times Article About cannot be loaded');
+  });
+    
  return false;
 }
 $('#form-container').submit(loadData);
