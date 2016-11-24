@@ -38,14 +38,13 @@ $.getJSON( nyturl, function( data ) {
 }).error(function(e) {
     $nytHeaderElem.text('New York Times Article About cannot be loaded');
   });
- var wikiurl ='https://en.wikipedia.org/w/api.php?action=opensearch&search='+ cities +'&format=json&callback=wikiCallback';   
- 
+ var wikiurl ='https://en.wikicccpedia.org/w/axxpi.php?action=opensearch&search='+ cities +'&format=json&callback=wikiCallback';   
+ //var wikiurl ='https://en.wikipedia.org/w/api.php?action=query&titles='+ cities +'&prop=revisions&rvprop=content&format=json';
  $.ajax(wikiurl, {
   //url:wikiurl, 
   dataType:"jsonp",
   //jsonp:callback,
-
-  success: function(response){
+}).done(function(response){
 
     var articleList =response[1];
 
@@ -55,9 +54,9 @@ $.getJSON( nyturl, function( data ) {
       var url ='https://en.wikipedia.org/wiki/'+articleStr;
       $wikiElem.append('<li><a href="'+url+'">'+ articleStr+'</a></li>');
     };
-  }
-
-});
+  }).fail(function(response){
+    $wikiElem.append('error while loading wlikipedia');
+  });
 
 
  return false;
